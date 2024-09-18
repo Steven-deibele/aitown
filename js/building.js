@@ -35,9 +35,13 @@ async function aiInteraction(building) {
     }
     const data = await response.json();
     interactionText.textContent = data.message;
+
+    // Change background image based on building
+    const buildingImageUrl = `images/${building.toLowerCase()}.jpg`; // Adjust the image path as needed
+    document.body.style.backgroundImage = `url('${buildingImageUrl}')`;
   } catch (error) {
     console.error('Error interacting with AI:', error);
-    interactionText.textContent = 'Sorry, something went wrong.';
+    interactionText.textContent = 'Sorry, something went wrong. Please try again later.';
   }
 }
 
