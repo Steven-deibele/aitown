@@ -29,7 +29,10 @@ if (buildingName) {
 async function aiInteraction(building) {
   try {
     const response = await fetch(`/.netlify/functions/aiInteraction?building=${building}`);
-    if (!response.ok) throw new Error('Network response was not ok');
+    if (!response.ok) {
+      const errorText = await response.text(); // Get the error response text
+      throw new Error(`Network response was not ok: ${response.status} - ${errorText}`);
+    }
     const data = await response.json();
     interactionText.textContent = data.message;
   } catch (error) {
