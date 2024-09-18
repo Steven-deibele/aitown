@@ -7,7 +7,7 @@ if (buildingName) {
   buildingTitle.textContent = buildingName;
 
   // Set background based on building
-  const imageUrl = `images/${buildingName.toLowerCase()}.jpg`;
+  const imageUrl = `images/${buildingName.toLowerCase()}.avif`; // Ensure the correct extension
   const img = new Image();
   img.src = imageUrl;
   img.onload = () => {

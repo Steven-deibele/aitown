@@ -2,7 +2,7 @@ const express = require('express');
 const Groq = require('groq-sdk');
 const router = express.Router();
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const client = new Groq({ apiKey: "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" }); // Add your API key here
 
 router.get('/aiInteraction', async (req, res) => {
   const building = req.query.building;
@@ -17,7 +17,7 @@ router.get('/aiInteraction', async (req, res) => {
 });
 
 async function getGroqChatCompletion(building) {
-  return groq.chat.completions.create({
+  return client.chat.completions.create({
     messages: [
       {
         role: "user",
