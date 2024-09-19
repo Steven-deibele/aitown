@@ -2,6 +2,9 @@ const urlParams = new URLSearchParams(window.location.search);
 const buildingName = urlParams.get('building');
 const buildingTitle = document.getElementById('buildingTitle');
 const interactionText = document.getElementById('interactionText');
+const messagesContainer = document.getElementById('messages');
+const userInput = document.getElementById('userInput');
+const sendButton = document.getElementById('sendButton');
 
 if (buildingName) {
   buildingTitle.textContent = buildingName;
@@ -20,29 +23,42 @@ if (buildingName) {
   // Simulated interaction
   interactionText.textContent = `Welcome to the ${buildingName}! How can we assist you?`;
 
-  // Optionally, make an API call to get AI-generated text
-  aiInteraction(buildingName);
+  // Event listener for sending messages
+  sendButton.addEventListener('click', () => {
+    const userMessage = userInput.value;
+    if (userMessage) {
+      addMessage('User', userMessage);
+      aiInteraction(userMessage);
+      userInput.value = ''; // Clear input field
+    }
+  });
 } else {
   interactionText.textContent = 'Building not found.';
 }
 
-async function aiInteraction(building) {
+async function aiInteraction(userMessage) {
   try {
-    const response = await fetch(`/api/aiInteraction?building=${building}`);
+    const response = await fetch(`/api/aiInteraction?building=${buildingName}`);
     if (!response.ok) {
       const errorText = await response.text(); // Get the error response text
       throw new Error(`Network response was not ok: ${response.status} - ${errorText}`);
     }
     const data = await response.json();
-    interactionText.textContent = data.message;
+    addMessage('AI', data.message);
 
     // Change background image based on building
     const buildingImageUrl = `images/${building.toLowerCase()}.jpg`; // Adjust the image path as needed
     document.body.style.backgroundImage = `url('${buildingImageUrl}')`;
   } catch (error) {
     console.error('Error interacting with AI:', error);
-    interactionText.textContent = 'Sorry, something went wrong. Please try again later.';
+    addMessage('AI', 'Sorry, something went wrong. Please try again later.');
   }
+}
+
+function addMessage(sender, message) {
+  const messageElement = document.createElement('div');
+  messageElement.textContent = `${sender}: ${message}`;
+  messagesContainer.appendChild(messageElement);
 }
 
 function closeChat() {

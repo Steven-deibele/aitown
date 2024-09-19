@@ -62,3 +62,27 @@ body {
     margin: auto;
     text-align: center;
 }
+
+#chatWindow {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#messages {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+#userInput {
+    width: calc(100% - 80px);
+    padding: 5px;
+}
+
+#sendButton {
+    padding: 5px 10px;
+}
