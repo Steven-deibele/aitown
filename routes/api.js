@@ -2,7 +2,8 @@ const express = require('express');
 const Groq = require('groq-sdk');
 const router = express.Router();
 
-const client = new Groq({ apiKey: "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" }); // Add your API key here
+// Use environment variable for API key
+const client = new Groq({ apiKey: process.env.GROQ_API_KEY }); // Fetch API key from environment variable
 
 router.get('/aiInteraction', async (req, res) => {
   const building = req.query.building;
