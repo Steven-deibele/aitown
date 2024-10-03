@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
   }
 };
 
-async function getGroqChatCompletion(building) {
+async function getGroqChatCompletion(building, message) {
   return groq.chat.completions.create({
     messages: [
       {
