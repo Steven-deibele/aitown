@@ -22,11 +22,20 @@ exports.handler = async (event, context) => {
 };
 
 async function getGroqChatCompletion(building, message) {
+  const buildingNames = {
+    "Hospital": "Steven's Hospital",
+    "Gym": "Steven's Gym",
+    "Restaurant": "Steven's Vegan Restaurant",
+    // Add more buildings and their specific names here
+  };
+
+  const buildingName = buildingNames[building] || building;
+
   return groq.chat.completions.create({
     messages: [
       {
         role: "system",
-        content: `You are a greeter in a ${building}. Introduce yourself and offer help.`,
+        content: `You are a greeter in ${buildingName}. Introduce yourself and offer help. Always use the full name "${buildingName}" when referring to this place.`,
       },
       {
         role: "user",
