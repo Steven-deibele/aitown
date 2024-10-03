@@ -38,9 +38,9 @@ if (buildingName) {
 
 async function aiInteraction(userMessage) {
   try {
-    const response = await fetch(`/api/aiInteraction?building=${buildingName}`);
+    const response = await fetch(`/api/aiInteraction?building=${buildingName}&message=${encodeURIComponent(userMessage)}`);
     if (!response.ok) {
-      const errorText = await response.text(); // Get the error response text
+      const errorText = await response.text();
       throw new Error(`Network response was not ok: ${response.status} - ${errorText}`);
     }
     const data = await response.json();
