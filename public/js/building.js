@@ -6,37 +6,43 @@ const messagesContainer = document.getElementById('messages');
 const userInput = document.getElementById('userInput');
 const sendButton = document.getElementById('sendButton');
 
+let isFirstMessage = true;
+
 if (buildingName) {
   buildingTitle.textContent = buildingName;
 
   // Set background based on building
-  const imageUrl = `/images/${buildingName.toLowerCase()}.avif`; // Ensure the correct extension
+  const imageUrl = `/images/${buildingName.toLowerCase()}.avif`;
   const img = new Image();
   img.src = imageUrl;
   img.onload = () => {
     document.body.style.backgroundImage = `url('${imageUrl}')`;
   };
   img.onerror = () => {
-    document.body.style.backgroundColor = '#f0f0f0'; // Fallback color if image fails to load
+    document.body.style.backgroundColor = '#f0f0f0';
   };
 
-  // Simulated interaction
   interactionText.textContent = `Welcome to the ${buildingName}! How can we assist you?`;
 
   // Event listener for sending messages
-  sendButton.addEventListener('click', () => {
-    const userMessage = userInput.value;
-    if (userMessage) {
-      addMessage('User', userMessage);
-      aiInteraction(userMessage);
-      userInput.value = ''; // Clear input field
+  sendButton.addEventListener('click', sendMessage);
+  userInput.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+      sendMessage();
     }
   });
 } else {
   interactionText.textContent = 'Building not found.';
 }
 
-let isFirstMessage = true;
+function sendMessage() {
+  const userMessage = userInput.value;
+  if (userMessage) {
+    addMessage('User', userMessage);
+    aiInteraction(userMessage);
+    userInput.value = '';
+  }
+}
 
 async function aiInteraction(userMessage) {
   try {
@@ -55,11 +61,13 @@ async function aiInteraction(userMessage) {
 }
 
 function addMessage(sender, message) {
+  messagesContainer.innerHTML = ''; // Clear previous messages
   const messageElement = document.createElement('div');
   messageElement.textContent = `${sender}: ${message}`;
   messagesContainer.appendChild(messageElement);
 }
 
 function closeChat() {
-  window.close(); // Close the current window
+  window.close();
 }
+
