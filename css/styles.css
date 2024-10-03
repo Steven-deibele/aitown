@@ -7,6 +7,18 @@ body {
     background-repeat: no-repeat; /* Prevent the image from repeating */
 }
 
+h1 {
+    font-size: 3em; /* Increase font size */
+    color: white; /* Change text color to white */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add text shadow for better visibility */
+}
+
+p {
+    font-size: 1.5em; /* Increase font size */
+    color: white; /* Change text color to white */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Add text shadow for better visibility */
+}
+
 .town {
     display: flex;
     justify-content: center;

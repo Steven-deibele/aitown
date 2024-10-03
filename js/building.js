@@ -38,17 +38,13 @@ if (buildingName) {
 
 async function aiInteraction(userMessage) {
   try {
-    const response = await fetch(`/api/aiInteraction?building=${buildingName}&message=${encodeURIComponent(userMessage)}`);
+    const response = await fetch(`/.netlify/functions/aiInteractions?building=${buildingName}&message=${encodeURIComponent(userMessage)}`);
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Network response was not ok: ${response.status} - ${errorText}`);
     }
     const data = await response.json();
     addMessage('AI', data.message);
-
-    // Change background image based on building
-    const buildingImageUrl = `images/${building.toLowerCase()}.jpg`; // Adjust the image path as needed
-    document.body.style.backgroundImage = `url('${buildingImageUrl}')`;
   } catch (error) {
     console.error('Error interacting with AI:', error);
     addMessage('AI', 'Sorry, something went wrong. Please try again later.');
