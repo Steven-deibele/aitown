@@ -36,15 +36,18 @@ if (buildingName) {
   interactionText.textContent = 'Building not found.';
 }
 
+let isFirstMessage = true;
+
 async function aiInteraction(userMessage) {
   try {
-    const response = await fetch(`/.netlify/functions/aiInteractions?building=${buildingName}&message=${encodeURIComponent(userMessage)}`);
+    const response = await fetch(`/.netlify/functions/aiInteractions?building=${buildingName}&message=${encodeURIComponent(userMessage)}&isFirstMessage=${isFirstMessage}`);
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Network response was not ok: ${response.status} - ${errorText}`);
     }
     const data = await response.json();
     addMessage('AI', data.message);
+    isFirstMessage = false;
   } catch (error) {
     console.error('Error interacting with AI:', error);
     addMessage('AI', 'Sorry, something went wrong. Please try again later.');

@@ -5,9 +5,10 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 exports.handler = async (event, context) => {
   const building = event.queryStringParameters.building;
   const message = event.queryStringParameters.message;
+  const isFirstMessage = event.queryStringParameters.isFirstMessage === 'true';
 
   try {
-    const chatCompletion = await getGroqChatCompletion(building, message);
+    const chatCompletion = await getGroqChatCompletion(building, message, isFirstMessage);
     return {
       statusCode: 200,
       body: JSON.stringify({ message: chatCompletion.choices[0]?.message?.content || "No response from AI." }),
@@ -21,7 +22,7 @@ exports.handler = async (event, context) => {
   }
 };
 
-async function getGroqChatCompletion(building, message) {
+async function getGroqChatCompletion(building, message, isFirstMessage) {
   const buildingNames = {
     "Hospital": "Steven's Hospital",
     "Gym": "Steven's Gym",
@@ -31,11 +32,15 @@ async function getGroqChatCompletion(building, message) {
 
   const buildingName = buildingNames[building] || building;
 
+  const systemMessage = isFirstMessage
+    ? `You are a greeter in ${buildingName}. Introduce yourself and offer help. Always use the full name "${buildingName}" when referring to this place.`
+    : `You are an assistant in ${buildingName}. Always use the full name "${buildingName}" when referring to this place.`;
+
   return groq.chat.completions.create({
     messages: [
       {
         role: "system",
-        content: `You are a greeter in ${buildingName}. Introduce yourself and offer help. Always use the full name "${buildingName}" when referring to this place.`,
+        content: systemMessage,
       },
       {
         role: "user",
