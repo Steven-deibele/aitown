@@ -39,9 +39,21 @@ if (buildingName) {
 
 async function fetchCharacters(building) {
   try {
-    const response = await fetch(`/.netlify/functions/getCharacters?building=${building}`);
-    const characters = await response.json();
-    displayCharacterSelection(characters);
+    const characters = {
+      "Hospital": [
+        { name: "Dr. Emily", jobTitle: "Surgeon", backstory: "A compassionate surgeon with 15 years of experience." },
+        { name: "Nurse Jack", jobTitle: "Nurse", backstory: "An energetic nurse known for his humor and efficiency." }
+      ],
+      "Gym": [
+        { name: "Coach Sarah", jobTitle: "Personal Trainer", backstory: "A former Olympic athlete turned personal trainer." },
+        { name: "Zen Master Yuki", jobTitle: "Yoga Instructor", backstory: "A calm and patient yoga instructor." }
+      ],
+      "Restaurant": [
+        { name: "Chef Marco", jobTitle: "Head Chef", backstory: "An innovative chef with a passion for vegan fusion cuisine." },
+        { name: "Sommelier Olivia", jobTitle: "Health Food Expert", backstory: "A healthy food expert with an encyclopedic knowledge of health benefits that food can provide." }
+      ]
+    };
+    displayCharacterSelection(characters[building]);
   } catch (error) {
     console.error('Error fetching characters:', error);
   }
