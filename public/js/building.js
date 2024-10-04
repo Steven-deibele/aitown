@@ -167,17 +167,60 @@ function saveConversation() {
   const conversation = JSON.stringify(conversationHistory[selectedCharacter.name]);
   const blob = new Blob([conversation], { type: 'text/plain' });
   
-  const a = document.createElement('a');
-  a.style.display = 'none';
-  document.body.appendChild(a);
-
   const fileName = prompt('Enter a name for your conversation file:', 'conversation.txt');
   if (fileName) {
+    const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = fileName;
+    a.style.display = 'none';
+    document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   }
 }
 
+function loadConversation() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.txt';
+  input.onchange = function(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const loadedConversation = JSON.parse(e.target.result);
+        if (Array.isArray(loadedConversation) && loadedConversation.length > 0) {
+          const loadedCharacter = loadedConversation[0].role === 'assistant' ? loadedConversation[0].content.split(':')[0] : null;
+          if (loadedCharacter && loadedCharacter === selectedCharacter.name) {
+            conversationHistory[selectedCharacter.name] = loadedConversation;
+            messagesContainer.innerHTML = '';
+            loadedConversation.forEach(message => {
+              if (message.role !== 'system') {
+                addMessage(message.role === 'assistant' ? selectedCharacter.name : 'User', message.content);
+              }
+            });
+            alert('Conversation loaded successfully.');
+          } else {
+            alert('This conversation file is not for the current character or building.');
+          }
+        } else {
+          alert('Invalid conversation file.');
+        }
+      } catch (error) {
+        console.error('Error loading conversation:', error);
+        alert('Error loading conversation. Please try again.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
 document.getElementById('saveButton').addEventListener('click', saveConversation);
+document.getElementById('loadButton').addEventListener('click', loadConversation);
+document.getElementById('switchCharacterButton').addEventListener('click', () => {
+  characterSelection.style.display = 'block';
+  messagesContainer.style.display = 'none';
+  userInput.style.display = 'none';
+  sendButton.style.display = 'none';
+});
