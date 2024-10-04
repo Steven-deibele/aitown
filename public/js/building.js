@@ -99,6 +99,18 @@ function selectCharacter(character) {
   messagesContainer.style.display = 'block';
   userInput.style.display = 'block';
   sendButton.style.display = 'block';
+  
+  const switchCharacterButton = document.createElement('button');
+  switchCharacterButton.textContent = 'Switch Character';
+  switchCharacterButton.addEventListener('click', () => {
+    characterSelection.style.display = 'block';
+    messagesContainer.style.display = 'none';
+    userInput.style.display = 'none';
+    sendButton.style.display = 'none';
+    switchCharacterButton.remove();
+  });
+  
+  document.getElementById('chatContainer').appendChild(switchCharacterButton);
 }
 
 async function sendMessage() {
@@ -126,6 +138,9 @@ async function aiInteraction(userMessage) {
 }
 
 function addMessage(sender, message) {
+  if (sender !== 'User') {
+    messagesContainer.innerHTML = '';
+  }
   const messageElement = document.createElement('div');
   messageElement.textContent = `${sender}: ${message}`;
   messagesContainer.appendChild(messageElement);
@@ -133,4 +148,33 @@ function addMessage(sender, message) {
 
 function closeChat() {
   window.close();
+}
+
+function saveConversation() {
+  const conversation = JSON.stringify(conversationHistory[selectedCharacter.name]);
+  const blob = new Blob([conversation], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `conversation_with_${selectedCharacter.name}.txt`;
+  a.click();
+}
+
+function loadConversation() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.txt';
+  input.onchange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      conversationHistory[selectedCharacter.name] = JSON.parse(content);
+      const lastMessage = conversationHistory[selectedCharacter.name][conversationHistory[selectedCharacter.name].length - 1];
+      if (lastMessage.role === 'assistant') {
+        addMessage(selectedCharacter.name, lastMessage.content);
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
 }

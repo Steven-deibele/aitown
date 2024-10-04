@@ -82,6 +82,8 @@ p {
     padding: 10px;
     max-height: 300px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 #messages {
@@ -93,10 +95,13 @@ p {
 #userInput {
     width: calc(100% - 80px);
     padding: 5px;
+    flex-grow: 1;
+    margin-right: 10px;
 }
 
 #sendButton {
     padding: 5px 10px;
+    width: auto;
 }
 
 .text-container {
