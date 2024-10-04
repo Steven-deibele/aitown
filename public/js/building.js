@@ -5,13 +5,14 @@ const interactionText = document.getElementById('interactionText');
 const messagesContainer = document.getElementById('messages');
 const userInput = document.getElementById('userInput');
 const sendButton = document.getElementById('sendButton');
+const characterSelection = document.getElementById('characterSelection');
 
 let isFirstMessage = true;
+let selectedCharacter = null;
 
 if (buildingName) {
   buildingTitle.textContent = buildingName;
 
-  // Set background based on building
   const imageUrl = `/images/${buildingName.toLowerCase()}.avif`;
   const img = new Image();
   img.src = imageUrl;
@@ -22,9 +23,10 @@ if (buildingName) {
     document.body.style.backgroundColor = '#f0f0f0';
   };
 
-  interactionText.textContent = `Welcome to the ${buildingName}! How can we assist you?`;
+  interactionText.textContent = `Welcome to the ${buildingName}! Please select a character to interact with:`;
 
-  // Event listener for sending messages
+  fetchCharacters(buildingName);
+
   sendButton.addEventListener('click', sendMessage);
   userInput.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
@@ -35,33 +37,59 @@ if (buildingName) {
   interactionText.textContent = 'Building not found.';
 }
 
-function sendMessage() {
+async function fetchCharacters(building) {
+  try {
+    const response = await fetch(`/.netlify/functions/getCharacters?building=${building}`);
+    const characters = await response.json();
+    displayCharacterSelection(characters);
+  } catch (error) {
+    console.error('Error fetching characters:', error);
+  }
+}
+
+function displayCharacterSelection(characters) {
+  characters.forEach(character => {
+    const button = document.createElement('button');
+    button.textContent = character.name;
+    button.addEventListener('click', () => selectCharacter(character));
+    characterSelection.appendChild(button);
+  });
+}
+
+function selectCharacter(character) {
+  selectedCharacter = character;
+  interactionText.textContent = `You are now talking to ${character.name}. How can they assist you?`;
+  characterSelection.style.display = 'none';
+  messagesContainer.style.display = 'block';
+  userInput.style.display = 'block';
+  sendButton.style.display = 'block';
+}
+
+async function sendMessage() {
   const userMessage = userInput.value;
-  if (userMessage) {
+  if (userMessage && selectedCharacter) {
     addMessage('User', userMessage);
-    aiInteraction(userMessage);
+    await aiInteraction(userMessage);
     userInput.value = '';
   }
 }
 
 async function aiInteraction(userMessage) {
   try {
-    const response = await fetch(`/.netlify/functions/aiInteractions?building=${buildingName}&message=${encodeURIComponent(userMessage)}&isFirstMessage=${isFirstMessage}`);
+    const response = await fetch(`/.netlify/functions/aiInteractions?building=${buildingName}&character=${selectedCharacter.name}&message=${encodeURIComponent(userMessage)}&isFirstMessage=${isFirstMessage}`);
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Network response was not ok: ${response.status} - ${errorText}`);
+      throw new Error(`Network response was not ok: ${response.status}`);
     }
     const data = await response.json();
-    addMessage('AI', data.message);
+    addMessage(selectedCharacter.name, data.message);
     isFirstMessage = false;
   } catch (error) {
     console.error('Error interacting with AI:', error);
-    addMessage('AI', 'Sorry, something went wrong. Please try again later.');
+    addMessage('System', 'Sorry, something went wrong. Please try again later.');
   }
 }
 
 function addMessage(sender, message) {
-  messagesContainer.innerHTML = ''; // Clear previous messages
   const messageElement = document.createElement('div');
   messageElement.textContent = `${sender}: ${message}`;
   messagesContainer.appendChild(messageElement);
@@ -70,4 +98,3 @@ function addMessage(sender, message) {
 function closeChat() {
   window.close();
 }
-
