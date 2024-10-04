@@ -9,6 +9,7 @@ const characterSelection = document.getElementById('characterSelection');
 
 let isFirstMessage = true;
 let selectedCharacter = null;
+let conversationHistory = {};
 
 if (buildingName) {
   buildingTitle.textContent = buildingName;
@@ -151,6 +152,10 @@ function closeChat() {
 }
 
 function saveConversation() {
+  if (!selectedCharacter || !conversationHistory[selectedCharacter.name]) {
+    alert('No conversation to save.');
+    return;
+  }
   const conversation = JSON.stringify(conversationHistory[selectedCharacter.name]);
   const blob = new Blob([conversation], { type: 'text/plain' });
   

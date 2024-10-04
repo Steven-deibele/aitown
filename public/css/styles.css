@@ -92,16 +92,20 @@ p {
     margin-bottom: 10px;
 }
 
-#userInput {
-    width: calc(100% - 80px);
-    padding: 5px;
-    flex-grow: 1;
-    margin-right: 10px;
+#inputContainer {
+    display: flex;
+    align-items: center;
 }
 
-#sendButton {
+#userInput {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+#sendButton, #saveButton {
     padding: 5px 10px;
-    width: auto;
+    white-space: nowrap;
 }
 
 .text-container {
