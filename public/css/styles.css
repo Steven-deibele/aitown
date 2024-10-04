@@ -132,3 +132,7 @@ button:hover {
     margin: 20px auto;
     max-width: 80%;
 }
+
+#switchCharacterButton {
+    display: none;
+}

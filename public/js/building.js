@@ -101,17 +101,7 @@ function selectCharacter(character) {
   userInput.style.display = 'block';
   sendButton.style.display = 'block';
   
-  const switchCharacterButton = document.createElement('button');
-  switchCharacterButton.textContent = 'Switch Character';
-  switchCharacterButton.addEventListener('click', () => {
-    characterSelection.style.display = 'block';
-    messagesContainer.style.display = 'none';
-    userInput.style.display = 'none';
-    sendButton.style.display = 'none';
-    switchCharacterButton.remove();
-  });
-  
-  document.getElementById('chatContainer').appendChild(switchCharacterButton);
+  document.getElementById('switchCharacterButton').style.display = 'inline-block';
 }
 
 async function sendMessage() {
@@ -164,7 +154,12 @@ function saveConversation() {
     alert('No conversation to save.');
     return;
   }
-  const conversation = JSON.stringify(conversationHistory[selectedCharacter.name]);
+  const conversationData = {
+    building: buildingName,
+    character: selectedCharacter.name,
+    history: conversationHistory[selectedCharacter.name]
+  };
+  const conversation = JSON.stringify(conversationData);
   const blob = new Blob([conversation], { type: 'text/plain' });
   
   const fileName = prompt('Enter a name for your conversation file:', 'conversation.txt');
@@ -188,23 +183,18 @@ function loadConversation() {
     const reader = new FileReader();
     reader.onload = function(e) {
       try {
-        const loadedConversation = JSON.parse(e.target.result);
-        if (Array.isArray(loadedConversation) && loadedConversation.length > 0) {
-          const loadedCharacter = loadedConversation[0].role === 'assistant' ? loadedConversation[0].content.split(':')[0] : null;
-          if (loadedCharacter && loadedCharacter === selectedCharacter.name) {
-            conversationHistory[selectedCharacter.name] = loadedConversation;
-            messagesContainer.innerHTML = '';
-            loadedConversation.forEach(message => {
-              if (message.role !== 'system') {
-                addMessage(message.role === 'assistant' ? selectedCharacter.name : 'User', message.content);
-              }
-            });
-            alert('Conversation loaded successfully.');
-          } else {
-            alert('This conversation file is not for the current character or building.');
-          }
+        const loadedData = JSON.parse(e.target.result);
+        if (loadedData.building === buildingName && loadedData.character === selectedCharacter.name) {
+          conversationHistory[selectedCharacter.name] = loadedData.history;
+          messagesContainer.innerHTML = '';
+          loadedData.history.forEach(message => {
+            if (message.role !== 'system') {
+              addMessage(message.role === 'assistant' ? selectedCharacter.name : 'User', message.content);
+            }
+          });
+          alert('Conversation loaded successfully.');
         } else {
-          alert('Invalid conversation file.');
+          alert('This conversation file is not for the current character or building.');
         }
       } catch (error) {
         console.error('Error loading conversation:', error);
