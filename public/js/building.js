@@ -48,12 +48,36 @@ async function fetchCharacters(building) {
 }
 
 function displayCharacterSelection(characters) {
+  const form = document.createElement('form');
   characters.forEach(character => {
-    const button = document.createElement('button');
-    button.textContent = character.name;
-    button.addEventListener('click', () => selectCharacter(character));
-    characterSelection.appendChild(button);
+    const radioDiv = document.createElement('div');
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.id = character.name;
+    radio.name = 'character';
+    radio.value = character.name;
+    
+    const label = document.createElement('label');
+    label.htmlFor = character.name;
+    label.textContent = `${character.name} - ${character.jobTitle}`;
+    
+    radioDiv.appendChild(radio);
+    radioDiv.appendChild(label);
+    form.appendChild(radioDiv);
   });
+  
+  const submitButton = document.createElement('button');
+  submitButton.textContent = 'Select Character';
+  submitButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    const selectedCharacter = form.querySelector('input[name="character"]:checked');
+    if (selectedCharacter) {
+      selectCharacter(characters.find(c => c.name === selectedCharacter.value));
+    }
+  });
+  form.appendChild(submitButton);
+  
+  characterSelection.appendChild(form);
 }
 
 function selectCharacter(character) {

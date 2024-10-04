@@ -4,16 +4,16 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 const characters = {
   "Hospital": [
-    { name: "Dr. Emily", backstory: "A compassionate surgeon with 15 years of experience." },
-    { name: "Nurse Jack", backstory: "An energetic nurse known for his humor and efficiency." }
+    { name: "Dr. Emily", jobTitle: "Surgeon", backstory: "A compassionate surgeon with 15 years of experience." },
+    { name: "Nurse Jack", jobTitle: "Nurse", backstory: "An energetic nurse known for his humor and efficiency." }
   ],
   "Gym": [
-    { name: "Coach Sarah", backstory: "A former Olympic athlete turned personal trainer." },
-    { name: "Zen Master Yuki", backstory: "A calm and patient yoga instructor." }
+    { name: "Coach Sarah", jobTitle: "Personal Trainer", backstory: "A former Olympic athlete turned personal trainer." },
+    { name: "Zen Master Yuki", jobTitle: "Yoga Instructor", backstory: "A calm and patient yoga instructor." }
   ],
   "Restaurant": [
-    { name: "Chef Marco", backstory: "An innovative chef with a passion for vegan fusion cuisine." },
-    { name: "Sommelier Olivia", backstory: "A healthy food expert with an encyclopedic knowledge of health benefits that food can provide." }
+    { name: "Chef Marco", jobTitle: "Head Chef", backstory: "An innovative chef with a passion for vegan fusion cuisine." },
+    { name: "Sommelier Olivia", jobTitle: "Health Food Expert", backstory: "A healthy food expert with an encyclopedic knowledge of health benefits that food can provide." }
   ]
 };
 

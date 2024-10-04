@@ -7,16 +7,18 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <h1 id="buildingTitle"></h1>
-  <div id="chatContainer">
-    <div id="interactionText"></div>
-    <div id="characterSelection"></div>
-    <div id="chatWindow">
-      <div id="messages"></div>
-      <input type="text" id="userInput" placeholder="Type your message..." />
-      <button id="sendButton">Send</button>
+  <div class="text-container">
+    <h1 id="buildingTitle"></h1>
+    <div id="chatContainer">
+      <div id="interactionText"></div>
+      <div id="characterSelection"></div>
+      <div id="chatWindow">
+        <div id="messages"></div>
+        <input type="text" id="userInput" placeholder="Type your message..." />
+        <button id="sendButton">Send</button>
+      </div>
+      <button onclick="goBack()">Back to Town</button>
     </div>
-    <button onclick="goBack()">Back to Town</button>
   </div>
   <script src="/js/building.js"></script>
   <script>
