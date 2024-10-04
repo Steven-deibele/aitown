@@ -65,7 +65,7 @@ async function getGroqChatCompletion(building, character, message, isFirstMessag
       { role: "system", content: systemMessage },
       ...conversationHistory[character],
     ],
-    model: "llama3-8b-8192",
+    model: "llama-3.2-11b-vision-preview",
   });
 
   conversationHistory[character].push({ role: "assistant", content: response.choices[0]?.message?.content });
