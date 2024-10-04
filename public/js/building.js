@@ -132,6 +132,14 @@ async function aiInteraction(userMessage) {
     const data = await response.json();
     addMessage(selectedCharacter.name, data.message);
     isFirstMessage = false;
+
+    // Update conversation history
+    if (!conversationHistory[selectedCharacter.name]) {
+      conversationHistory[selectedCharacter.name] = [];
+    }
+    conversationHistory[selectedCharacter.name].push({ role: "user", content: userMessage });
+    conversationHistory[selectedCharacter.name].push({ role: "assistant", content: data.message });
+
   } catch (error) {
     console.error('Error interacting with AI:', error);
     addMessage('System', 'Sorry, something went wrong. Please try again later.');
@@ -152,7 +160,7 @@ function closeChat() {
 }
 
 function saveConversation() {
-  if (!selectedCharacter || !conversationHistory[selectedCharacter.name]) {
+  if (!selectedCharacter || !conversationHistory[selectedCharacter.name] || conversationHistory[selectedCharacter.name].length === 0) {
     alert('No conversation to save.');
     return;
   }

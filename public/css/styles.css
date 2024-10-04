@@ -103,9 +103,11 @@ p {
     padding: 5px;
 }
 
-#sendButton, #saveButton {
+#sendButton, #saveButton, #loadButton, button[onclick="goBack()"] {
     padding: 5px 10px;
     white-space: nowrap;
+    height: 30px;
+    line-height: 20px;
 }
 
 .text-container {
