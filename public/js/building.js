@@ -12,6 +12,10 @@ let selectedCharacter = null;
 let conversationHistory = {};
 
 if (buildingName) {
+  messagesContainer.innerHTML = '';
+  conversationHistory = {};
+  isFirstMessage = true;
+  
   buildingTitle.textContent = buildingName;
 
   const imageUrl = `/images/${buildingName.toLowerCase()}.avif`;
@@ -100,6 +104,15 @@ function selectCharacter(character) {
   messagesContainer.style.display = 'block';
   userInput.style.display = 'block';
   sendButton.style.display = 'block';
+  
+  // Clear the chat window
+  messagesContainer.innerHTML = '';
+  
+  // Reset conversation history for the new character
+  conversationHistory[selectedCharacter.name] = [];
+  
+  // Reset isFirstMessage flag
+  isFirstMessage = true;
   
   document.getElementById('switchCharacterButton').style.display = 'inline-block';
 }
