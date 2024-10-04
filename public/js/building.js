@@ -153,28 +153,18 @@ function closeChat() {
 function saveConversation() {
   const conversation = JSON.stringify(conversationHistory[selectedCharacter.name]);
   const blob = new Blob([conversation], { type: 'text/plain' });
+  
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `conversation_with_${selectedCharacter.name}.txt`;
-  a.click();
+  a.style.display = 'none';
+  document.body.appendChild(a);
+
+  const fileName = prompt('Enter a name for your conversation file:', 'conversation.txt');
+  if (fileName) {
+    a.href = URL.createObjectURL(blob);
+    a.download = fileName;
+    a.click();
+    document.body.removeChild(a);
+  }
 }
 
-function loadConversation() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = '.txt';
-  input.onchange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const content = e.target.result;
-      conversationHistory[selectedCharacter.name] = JSON.parse(content);
-      const lastMessage = conversationHistory[selectedCharacter.name][conversationHistory[selectedCharacter.name].length - 1];
-      if (lastMessage.role === 'assistant') {
-        addMessage(selectedCharacter.name, lastMessage.content);
-      }
-    };
-    reader.readAsText(file);
-  };
-  input.click();
-}
+document.getElementById('saveButton').addEventListener('click', saveConversation);
