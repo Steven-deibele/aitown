@@ -121,7 +121,7 @@ button:hover {
 
 #sendButton, #saveButton, #loadButton, button[onclick="goBack()"] {
     white-space: nowrap;
-    height: 20px;
+    height: 25px;
     line-height: 20px;
 }
 
