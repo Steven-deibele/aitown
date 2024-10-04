@@ -104,9 +104,8 @@ p {
 }
 
 #sendButton, #saveButton, #loadButton, button[onclick="goBack()"] {
-    padding: 5px 10px;
     white-space: nowrap;
-    height: 30px;
+    height: 20px;
     line-height: 20px;
 }
 
