@@ -58,7 +58,7 @@ async function fetchCharacters(building) {
         { name: "Chef Marco", jobTitle: "Head Chef", backstory: "An innovative chef with a passion for vegan fusion cuisine." },
         { name: "Sommelier Olivia", jobTitle: "Health Food Expert", backstory: "A healthy food expert with an encyclopedic knowledge of health benefits that food can provide." }
       ],
-      "Steve's Automatic Shop": [
+      "Steve's Automotive Shop": [
         { name: "Steve", jobTitle: "Head Mechanic", backstory: "A skilled mechanic with 30 years of experience in all types of vehicles." },
         { name: "Lisa", jobTitle: "Car Buying Expert", backstory: "A former car salesperson who now helps customers make informed decisions when buying cars." }
       ],
