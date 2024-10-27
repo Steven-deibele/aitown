@@ -16,13 +16,15 @@
         <div id="messages"></div>
         <div id="inputContainer">
           <input type="text" id="userInput" placeholder="Type your message..." />
-          <button id="sendButton">Send</button>
+          <div class="button-group">
+            <button id="sendButton">Send</button>
+            <button onclick="goBack()">Back to Town</button>
+            <button id="switchCharacterButton">Switch Character</button>
+            <button id="saveButton">Save</button>
+            <button id="loadButton">Load</button>
+          </div>
         </div>
       </div>
-      <button onclick="goBack()">Back to Town</button>
-      <button id="saveButton">Save</button>
-      <button id="loadButton">Load</button>
-      <button id="switchCharacterButton">Switch Character</button>
     </div>
   </div>
   <script src="/js/building.js"></script>

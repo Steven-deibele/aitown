@@ -163,8 +163,16 @@ function addMessage(sender, message) {
     messagesContainer.innerHTML = '';
   }
   const messageElement = document.createElement('div');
-  messageElement.textContent = `${sender}: ${message}`;
+  messageElement.className = sender.toLowerCase() + '-message';
+  
+  let displayMessage = message;
+  if (sender !== 'User') {
+    displayMessage = message + '\n\n(Type your message to continue the conversation)';
+  }
+  
+  messageElement.textContent = `${sender}: ${displayMessage}`;
   messagesContainer.appendChild(messageElement);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
 function closeChat() {
