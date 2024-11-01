@@ -14,6 +14,7 @@ h1 {
     font-size: 3em; /* Increase font size */
     color: rgb(0, 0, 0); /* Change text color to white */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Add text shadow for better visibility */
+    margin-bottom: 10px;
 }
 
 p {
@@ -25,7 +26,6 @@ p {
 .town {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
     padding: 15px;
     width: 100%;
     max-width: 100vw;
@@ -42,11 +42,11 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     text-align: center;
-    gap: 15px;
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.8);
+    gap: 5px;
 }
 
 .building img {
@@ -54,7 +54,7 @@ p {
     height: auto;
     max-height: 200px;
     object-fit: cover;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .building-text {
@@ -84,19 +84,20 @@ p {
 
 #chatContainer {
     max-width: 100%;
-    margin: 10px auto;
-    padding: 15px;
-    height: calc(100vh - 150px); /* Adjust for header space */
+    margin: 2px auto;
+    padding: 5px;
+    height: calc(100vh - 130px);
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 
 #chatWindow {
     flex: 1;
-    margin-top: 20px;
+    margin-top: 10px;
     border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: 8px;
+    padding: 5px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -107,7 +108,7 @@ p {
     flex: 1;
     font-size: 1.1em;
     line-height: 1.6;
-    padding: 15px;
+    padding: 8px;
     text-align: left;
     overflow-y: auto;
 }
@@ -132,8 +133,8 @@ p {
 #inputContainer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 10px;
+    gap: 5px;
+    padding: 5px;
 }
 
 #userInput {
@@ -189,10 +190,10 @@ button:hover {
 
 .text-container {
     background-color: rgba(255, 255, 255, 0.7);
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px auto;
-    max-width: 80%;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px auto;
+    max-width: 90%;
 }
 
 #switchCharacterButton {
@@ -229,4 +230,19 @@ button:hover {
     .town {
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     }
+}
+
+#interactionText {
+    margin: 5px 0;
+    padding: 5px;
+}
+
+#characterSelection {
+    margin-top: 5px;
+}
+
+#characterSelection form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
