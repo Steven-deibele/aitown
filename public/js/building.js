@@ -137,7 +137,12 @@ async function sendMessage() {
 
 async function aiInteraction(userMessage) {
   try {
-    const response = await fetch(`/.netlify/functions/aiInteractions?building=${buildingName}&character=${selectedCharacter.name}&message=${encodeURIComponent(userMessage)}&isFirstMessage=${isFirstMessage}`);
+    const apiKey = localStorage.getItem('groqApiKey');
+    if (!apiKey) {
+      throw new Error('No API key found. Please return to home page and enter your API key.');
+    }
+
+    const response = await fetch(`/.netlify/functions/aiInteractions?building=${buildingName}&character=${selectedCharacter.name}&message=${encodeURIComponent(userMessage)}&isFirstMessage=${isFirstMessage}&apiKey=${apiKey}`);
     if (!response.ok) {
       throw new Error(`Network response was not ok: ${response.status}`);
     }
@@ -145,7 +150,6 @@ async function aiInteraction(userMessage) {
     addMessage(selectedCharacter.name, data.message);
     isFirstMessage = false;
 
-    // Update conversation history
     if (!conversationHistory[selectedCharacter.name]) {
       conversationHistory[selectedCharacter.name] = [];
     }
@@ -154,7 +158,7 @@ async function aiInteraction(userMessage) {
 
   } catch (error) {
     console.error('Error interacting with AI:', error);
-    addMessage('System', 'Sorry, something went wrong. Please try again later.');
+    addMessage('System', error.message);
   }
 }
 

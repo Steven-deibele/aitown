@@ -11,6 +11,13 @@
   <div class="text-container">
     <h1>Welcome to the Virtual Town v1.5</h1>
     <p>Click on a building to interact with the people inside!</p>
+    
+    <div id="apiKeyForm">
+      <label for="groqApiKey">Enter your Groq API Key:</label>
+      <input type="password" id="groqApiKey" placeholder="Enter API key">
+      <button onclick="saveApiKey()">Save API Key</button>
+      <p id="apiKeyStatus"></p>
+    </div>
   </div>
 
   <div class="town">

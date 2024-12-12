@@ -253,3 +253,25 @@ button:hover {
     flex-direction: column;
     gap: 8px;
 }
+
+#apiKeyForm {
+  margin: 20px auto;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  max-width: 400px;
+}
+
+#apiKeyForm input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#apiKeyStatus {
+  color: green;
+  margin-top: 10px;
+  font-weight: bold;
+}
